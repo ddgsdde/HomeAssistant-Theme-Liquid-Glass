@@ -1,0 +1,175 @@
+# Liquid Glass
+liquid_glass:
+  # --- 1. 基础设置 ---
+  modes:
+    dark:
+      primary-color: "#29b6f6"
+      accent-color: "#ff4081"
+      dark-primary-color: "#0288d1"
+      light-primary-color: "#b3e5fc"
+      primary-text-color: "#ffffff"
+      secondary-text-color: "rgba(255, 255, 255, 0.95)"
+      text-primary-color: "#ffffff"
+      disabled-text-color: "rgba(255, 255, 255, 0.5)"
+      app-header-background-color: "transparent"
+      app-header-text-color: "#ffffff"
+      sidebar-background-color: "#111111"
+      sidebar-icon-color: "rgba(255, 255, 255, 0.7)"
+      sidebar-text-color: "#ffffff"
+      mdc-theme-surface: "rgba(30, 32, 35, 0.5)"
+      paper-listbox-background-color: "transparent"
+      primary-background-color: "#000000"
+      secondary-background-color: "#111111"
+      card-background-color: "#161616"
+      ha-card-background: "#161616"
+      dialog-backdrop-filter: "blur(0px)"
+      dialog-background-color: "rgba(0, 0, 0, 0.1)"
+
+  # --- 2. 全局样式 ---
+  card-mod-theme: liquid_glass_v47
+  card-mod-root: |
+    @keyframes card-enter {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    app-header {
+      background: transparent !important;
+      border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+      backdrop-filter: none !important;
+    }
+    /* 强制允许溢出 */
+    ha-card, #root > *, hui-view, hui-vertical-stack-card, hui-horizontal-stack-card {
+      overflow: visible !important;
+    }
+    /* 下拉菜单配置 */
+    ha-select, mwc-select, ha-combo-box, mwc-menu {
+      --mdc-theme-surface: transparent !important;
+      --paper-listbox-background-color: transparent !important;
+      --mdc-menu-min-width: 200px !important;
+    }
+    .mdc-menu-surface {
+      z-index: 99999 !important;
+      position: absolute !important;
+      background: rgba(60, 60, 65, 0.3) !important;
+      backdrop-filter: blur(25px) saturate(120%) !important;
+      -webkit-backdrop-filter: blur(25px) saturate(120%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4) !important;
+    }
+    mwc-list, .mdc-list { background: transparent !important; }
+    mwc-list-item { 
+      color: #ffffff !important; margin: 2px 4px !important; border-radius: 6px !important; transition: background 0.2s ease !important;
+    }
+    mwc-list-item:hover { background: rgba(255, 255, 255, 0.15) !important; }
+    mwc-list-item[selected], mwc-list-item[activated] { background: rgba(41, 182, 246, 0.25) !important; }
+    mwc-list-item::before, mwc-list-item::after { display: none !important; }
+
+  # --- 3. 仪表盘卡片 (通透水晶) ---
+  card-mod-card: |
+    :host-context(hui-view) ha-card:not(.no-glass),
+    :host-context(hui-panel-view) ha-card:not(.no-glass),
+    :host-context(hui-sidebar-view) ha-card:not(.no-glass) {
+      background: transparent !important; 
+      box-shadow: none !important; border: none !important; 
+      overflow: hidden !important; 
+      color: #ffffff !important; transition: none !important; z-index: 1; 
+      text-shadow: 0 1px 3px rgba(0,0,0,0.8) !important;
+      animation: card-enter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+    }
+    :host-context(hui-view) ha-card:not(.no-glass):hover,
+    :host-context(hui-panel-view) ha-card:not(.no-glass):hover {
+      z-index: 100 !important;
+    }
+    :host-context(hui-view) ha-card:not(.no-glass)::before, 
+    :host-context(hui-panel-view) ha-card:not(.no-glass)::before, 
+    :host-context(hui-sidebar-view) ha-card:not(.no-glass)::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: -1; 
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.00) 100%);
+      backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.15); 
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    :host-context(hui-view) ha-card:not(.no-glass):hover::before, 
+    :host-context(hui-panel-view) ha-card:not(.no-glass):hover::before {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    ha-card.no-glass { background: none !important; border: none !important; box-shadow: none !important; }
+    ha-card.no-glass::before { display: none !important; }
+    ha-card > div { background-color: transparent !important; }
+
+  # --- 4. 弹出卡片 (Pop-up) - ---
+  card-mod-more-info-yaml: |
+    $: |
+      @keyframes ios-pop-in { 0% { opacity: 0; transform: scale(0.95) translateY(15px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+      @keyframes backdrop-fade-in { 0% { backdrop-filter: blur(0px); background-color: rgba(0,0,0,0); } 100% { backdrop-filter: blur(20px); background-color: rgba(0,0,0,0.4); } }
+      
+      /* [有机动画] 模拟真实反光的无序感 */
+      @keyframes organic-glimmer {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        20% { opacity: 0.5; } /* 渐显 */
+        40% { transform: translate(20%, 20%) scale(1.2); opacity: 0.8; } /* 移动并变大，最亮 */
+        60% { opacity: 0.3; } /* 变暗 */
+        80% { transform: translate(50%, 50%) scale(0.8); opacity: 0.6; } /* 移动到右下角，变小 */
+        100% { transform: translate(80%, 80%) scale(1.1); opacity: 0; } /* 消失 */
+      }
+
+      .mdc-dialog .mdc-dialog__surface {
+        overflow: hidden !important; 
+        position: relative !important;
+        
+        /* 干净通透的玻璃基底 */
+        background: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.08) 0%, 
+          rgba(255, 255, 255, 0.02) 40%, 
+          rgba(255, 255, 255, 0.00) 100%
+        ) !important;
+        background-clip: padding-box !important;
+        backdrop-filter: blur(35px) saturate(110%) !important;
+        -webkit-backdrop-filter: blur(35px) saturate(110%) !important;
+        
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.35) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 28px !important;
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6) !important;
+        
+        color: #ffffff !important;
+        animation: ios-pop-in 0.4s cubic-bezier(0.2, 0.9, 0.2, 1) forwards !important;
+        z-index: 1 !important;
+      }
+
+      /* [有机光斑层] */
+      .mdc-dialog .mdc-dialog__surface::before {
+        content: ""; position: absolute; z-index: 10; pointer-events: none;
+        
+        width: 200%; height: 200%;
+        top: -50%; left: -50%;
+        
+        /* 径向渐变 (Radial Gradient)  */
+        background: radial-gradient(
+          circle, 
+          rgba(255, 255, 255, 0.15) 0%,  /* 中心最亮 */
+          rgba(255, 255, 255, 0.05) 30%, /* 边缘柔和 */
+          transparent 70% /* 消失 */
+        );
+        
+        animation: organic-glimmer 12s ease-in-out infinite;
+        
+        /* 混合模式：柔光，*/
+        mix-blend-mode: soft-light;
+      }
+      
+      .mdc-dialog .mdc-dialog__surface::after { display: none !important; }
+
+      .mdc-dialog__scrim { animation: backdrop-fade-in 0.4s ease-out forwards !important; }
+      .mdc-dialog .mdc-dialog__content { padding: 24px !important; }
+      .mdc-dialog .mdc-dialog__surface ha-dialog-header { background: transparent !important; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+      ha-dialog-header span.header_title { font-weight: 600 !important; letter-spacing: 0.5px !important; }
+/* POWERED BY DDG */
