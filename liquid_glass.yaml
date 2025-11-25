@@ -26,7 +26,7 @@ liquid_glass:
       dialog-background-color: "rgba(0, 0, 0, 0.1)"
 
   # --- 2. 全局样式 ---
-  card-mod-theme: liquid_glass_v47
+  card-mod-theme: liquid_glass
   card-mod-root: |
     @keyframes card-enter {
       0% { opacity: 0; transform: translateY(20px); }
