@@ -1,7 +1,7 @@
 # Liquid Glass
 
 **Liquid Glass** 是一款为 Home Assistant 设计的深度定制主题，专注于极致的**通透感**与**有机光影**交互。
-
+![Liquid Glass Theme Preview](preview.jpg)
 
 ## ✨ 核心特性
 
